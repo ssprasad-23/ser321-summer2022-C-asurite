@@ -24,4 +24,15 @@ task FunWebServer(type: JavaExec) {
   standardInput = System.in
 }
 
+dependencies {
+    implementation 'com.github.leonardoxh:AsyncOkHttpClient:1.1'
+  implementation 'io.github.bytebeats:okhttp-analyzer-interceptor:0.1.4-3'
+  implementation 'com.javaquery:httpclient:1.0.0'
+  implementation 'com.github.jalasoft:HttpClient:1.0.5'
+}
+
+repositories {
+    mavenCentral()
+}
+
 

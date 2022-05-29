@@ -18,6 +18,8 @@ package funHttpServer;
 
 import java.io.*;
 import java.net.*;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -196,7 +198,7 @@ class WebServer {
         } else if (request.contains("multiply?")) {
           // This multiplies two numbers, there is NO error handling, so when
           // wrong data is given this just crashes
-
+        try {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
@@ -213,9 +215,15 @@ class WebServer {
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
           builder.append("Result is: " + result);
-
+        }
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
+        catch (Exception e){
+          builder.append("HTTP/1.1 400 ERROR\n");
+          builder.append("Content-Type: text/html; charset=utf-8\n");
+          builder.append("\n");
+          builder.append("Invalid Inputs");
+        }
 
         } else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
@@ -234,11 +242,79 @@ class WebServer {
           builder.append("HTTP/1.1 200 OK\n");
           builder.append("Content-Type: text/html; charset=utf-8\n");
           builder.append("\n");
-          builder.append("Check the todos mentioned in the Java source file");
+          builder.append(json);
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
 
-        } else {
+        }
+        else if (request.contains("agecalculator?")){
+          try {
+            Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+            // extract path parameters
+            query_pairs = splitQuery(request.replace("agecalculator?", ""));
+
+            // extract required fields from parameters
+            Integer month = Integer.parseInt(query_pairs.get("month"));
+            Integer year = Integer.parseInt(query_pairs.get("year"));
+            LocalDate dob=LocalDate.of(year,month,01);
+            LocalDate loc=LocalDate.now();
+
+
+            // do math
+            Integer result = Period.between(dob,loc).getYears();
+
+            // Generate response
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Your Age is: " + result);
+          }
+          catch (Exception e){
+            builder.append("HTTP/1.1 400 ERROR\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Invalid Inputs");
+          }
+        }
+        else if (request.contains("charactercount?")){
+          try {
+            Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+            // extract path parameters
+            query_pairs = splitQuery(request.replace("charactercount?", ""));
+
+            // extract required fields from parameters
+            String s=query_pairs.get("string");
+            String c =query_pairs.get("char");
+            if(!(c.length()==1))
+            c.charAt(1000);
+            int count=0;
+            if(c.length()==1){
+              char[] c2=c.toLowerCase().toCharArray();
+              char provchar=c2[0];
+              char[] strch=s.toCharArray();
+              for(char t:strch){
+                if(t==provchar){
+                  count++;
+                }
+              }
+            }
+
+            // do math
+            Integer result = count;
+            // Generate response
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("The number of "+c.charAt(0)+"'s : "  + result);
+          }
+          catch (Exception e){
+            builder.append("HTTP/1.1 400 ERROR\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Invalid Inputs");
+          }
+        }
+        else {
           // if the request is not recognized at all
 
           builder.append("HTTP/1.1 400 Bad Request\n");
