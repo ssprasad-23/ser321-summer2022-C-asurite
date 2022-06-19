@@ -71,3 +71,28 @@ Run Java:
 Java
 gradle runClient -Pport=9099 -Phost='localhost'
 gradle runServer -Pport=9099
+
+
+
+A) It is a server and client hangman game
+B) run the server with - gradle runServer -Pport=9099
+   Run client with - gradle runClient -Pport=9099 -Phost='localhost'
+C) It is a hangman game where you gas the animals name with each letter, you have 8 attempt to guess the animal name. 
+D) To follow--
+E) the the design and interaction is easy 
+F) requirements
+- protobuf implemented
+- game menu has 3 options
+- Option 1 is for leaderboard
+- the leaderboard is same for all users
+- option 2 is for new game
+- multiple users can play at the same time
+- when user wins, it takes you back to the main menu
+- server sends and checks task correctly
+- game quits when third options chosen
+- the server is running on AWS, you can access it on client side by in activity 2 - gradle runClient -Pport=9099 -Phost=54.67.80.156
+- the server shows how many times you logged in and how many games you won
+- when typed exit, it exits the game anywhere
+- the client server game does not crash
+
+   
