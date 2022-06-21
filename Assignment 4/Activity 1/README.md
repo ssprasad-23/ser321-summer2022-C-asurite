@@ -51,8 +51,8 @@ B) run client - gradle runClient -Phost=localhost -Pport=9099 -q --console=plain
    Run server for task 1 - gradle runServerTask1 -Pport=9099 -q --console=plain
    Run server for task 2 - gradle runServerTask2 -Pport=9099 -q --console=plain
    Run server for task 3 - gradle runServerTask3 -Pport=9099 -Pthread=10 -q --console=plain
-C) 
-D) short video
+C) The program converts from a single threaded server to a multi threaded server
+D) [short video](https://youtu.be/T_ch09BfCh8)
 E) The design and user interaction is easy to use
 F) Task 1 - the server adds string to an array
    Task 2 - Made the server multi threaded
