@@ -78,7 +78,7 @@ A) It is a server and client hangman game
 B) run the server with - gradle runServer -Pport=9099
    Run client with - gradle runClient -Pport=9099 -Phost='localhost'
 C) It is a hangman game where you gas the animals name with each letter, you have 8 attempt to guess the animal name. 
-D) To follow--
+D) (https://youtu.be/sIJLdHTOPyI)
 E) the the design and interaction is easy 
 F) requirements
 - protobuf implemented
