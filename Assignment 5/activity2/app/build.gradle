@@ -1,0 +1,60 @@
+
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+
+    implementation 'com.google.guava:guava:30.1.1-jre'
+    implementation 'org.json:json:20171018'
+}
+
+application {
+    mainClass = 'distributed.Main'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def type = "leader"
+def id = "id_X"
+def amount = "200"
+def host = "localhost"
+def port = 9999
+
+task arguments {
+	if (project.hasProperty("host")) {
+      host = project.getProperty("host")
+    }
+    if (project.hasProperty("port")) {
+      port = project.getProperty("port")
+    }
+	if (project.hasProperty("id")) {
+      id = project.getProperty("id")
+    }
+    if (project.hasProperty("amount")) {
+      amount = project.getProperty("amount")
+    }
+    if (project.hasProperty("type")) {
+      type = project.getProperty("type")
+    } else {
+        type = "error"
+    }
+}
+
+task runNode(type: JavaExec) {
+  description 'Running'
+
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'distributed.Main'
+  standardInput = System.in
+
+  args = [type, id, amount, host, port]
+}

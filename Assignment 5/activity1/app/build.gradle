@@ -1,0 +1,58 @@
+
+
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+
+    implementation 'com.google.guava:guava:30.1.1-jre'
+    implementation 'org.json:json:20171018'
+}
+
+application {
+    mainClass = 'proj.Peer'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('run') {
+    description 'Run App'
+    standardInput = System.in
+    args 'name'
+    args '7000'
+}
+
+def peerName = "name1"
+def port = 9999
+def initConnection = "no"
+
+task arguments {
+	if (project.hasProperty("peerName")) {
+      peerName = project.getProperty("peerName")
+    }
+    if (project.hasProperty("port")) {
+      port = project.getProperty("port")
+    }
+	if (project.hasProperty("initConnection")) {
+      initConnection = project.getProperty("initConnection")
+    }
+}
+
+task runPeer(type: JavaExec) {
+  description 'Running'
+
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'proj.Peer'
+  standardInput = System.in
+
+  args = [peerName, port, initConnection]
+}
