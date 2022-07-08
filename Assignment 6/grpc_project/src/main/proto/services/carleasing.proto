@@ -1,0 +1,73 @@
+// This server allows the client to check the car leasing conditions and lease cars 
+// It only include some cars, and the service can send a list of car conditions
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "CarLeasingProto";
+
+package services;
+import "google/protobuf/empty.proto";
+
+service CarLeasing {
+  rpc listCars (google.protobuf.Empty) returns (CarsResponse) {}
+  rpc lease (CarLeasingRequest) returns (CarLeasingResponse) {}
+  rpc giveBack (CarGiveBackRequest) returns (CarGiveBackResponse) {}
+  rpc bill (BillRequest) returns (BillResponse) {}
+}
+
+// The response for the listCars request
+message CarsResponse {
+  bool isSuccess = 1;
+  string error = 2; // Error message, should return a good error message in case something went wrong  -- isSuccess would then be false
+  repeated Car cars = 3;
+}
+
+message Car {
+  int32 id = 1; // car id
+  string name = 2; // car name
+  string brand = 3; // car brand
+  double leasingPrice = 4; // price for car leasing
+  int32 status = 5;  // status that this car is releasing or not
+}
+
+// Request for car leasing
+message CarLeasingRequest {
+  int32 carId = 1; // car id
+  string userName = 2; // user name
+}
+
+// The response message
+message CarLeasingResponse {
+  bool isSuccess = 1;
+  string error = 2; // Error message, should return a good error message of what might have gone wrong, e.g. city does not exist  -- isSuccess would then be false
+  Car car = 3; // car info
+}
+
+// Request for car give back
+message CarGiveBackRequest {
+  int32 carId = 1; // car id
+  string userName = 2; // user name
+}
+
+// The response message
+message CarGiveBackResponse {
+  bool isSuccess = 1;
+  string error = 2; // Error message, should return a good error message of what might have gone wrong, e.g. city does not exist  -- isSuccess would then be false
+  Car car = 3; // car info
+}
+
+// Request for bill
+message BillRequest {
+  string userName = 1; // user name
+}
+
+// The response message
+message BillResponse {
+  bool isSuccess = 1;
+  string error = 2; // Error message, should return a good error message of what might have gone wrong, e.g. city does not exist  -- isSuccess would then be false
+  double totalPrice = 3; // total car price
+  repeated Car everLeasingCars = 4;
+}
+
